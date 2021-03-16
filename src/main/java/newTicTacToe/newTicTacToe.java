@@ -6,15 +6,30 @@ public class newTicTacToe {
 
 	public static void main(String[] args) {
 		
-		Scanner input = new Scanner(System.in);
 		
+		//Various Variables used in main()
+		Scanner input = new Scanner(System.in);
 		char[] board = createBoard();
+		boolean endGameFlag = false;
+		char choiceYesOrNo = '-';
 		
 		char playerSymbol = playerChooseSymbol(input);
 		char computerSymbol = '-';
 		if (playerSymbol == 'X' || playerSymbol == 'x' ) {
 			computerSymbol = 'O';
 		}else { computerSymbol = 'X'; }
+		
+		
+		do {
+			
+			showBoard(board);
+			
+			System.out.println("Do you want to end the Game? Enter [Y] / [N].");
+			choiceYesOrNo = input.next().toUpperCase().charAt(0);
+			endGameFlag = (choiceYesOrNo == 'Y') ? false : true;
+			
+		} while (endGameFlag);
+		
 		
 	}
 
@@ -47,9 +62,21 @@ public class newTicTacToe {
 				return 'O';
 			}
 			else {System.out.println("Enter only enter the alphabets X or O.");}
+		}	
+	}
+	
+	//UC3
+	public static void showBoard(char[] board1) {
+		
+		System.out.println("-------");
+		for (int i = 1 ; i< 10 ; i++) {
+			System.out.printf("|" + board1[i]);
+			if(i%3==0) {
+				System.out.printf("|\n");
+			}
 		}
-			
-	}	
+		System.out.println("-------");
+	}
 	
 }
 
