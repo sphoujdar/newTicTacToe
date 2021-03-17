@@ -1,22 +1,37 @@
-package newTicTacToe;
+/*Query 1 - Recursive call to function from the function , What exactly happens ?
+ * 			eg. Wrong toss input.*/
 
+/*Query 2 - Using debugger instead of printing to console.*/
+
+
+
+package newTicTacToe;
 import java.util.Scanner;
 
 public class newTicTacToe {
 
 	public static void main(String[] args) {
+
 		
 		
 		//Various Variables used in main()
 		Scanner input = new Scanner(System.in);
 		char[] board = createBoard();
 		char playerSymbol = playerChooseSymbol(input) , opponentSymbol = (playerSymbol == 'X') ? 'O' : 'X' ;
-		boolean playerPlaysFirst = toss(input);
+		boolean isPlayerTurnNow = toss(input) ;
 		
 		showBoard(board);
 		do {
-			System.out.println("Player please make your move.");
-			makeMove(board, input, playerSymbol);
+			if(!isPlayerTurnNow) 
+			{
+				opponentPlays(board);
+				isPlayerTurnNow = true;
+			}
+			else
+			{
+				playerMove(board, input, playerSymbol);
+				isPlayerTurnNow = false;
+			}
 			
 		} while (true);
 		
@@ -43,11 +58,11 @@ public class newTicTacToe {
 			char playerChar = sc.next().charAt(0);
 			
 			if (Character.compare(playerChar, 'x') == 0 || Character.compare(playerChar, 'X') == 0) {
-				System.out.println("Player selected character [X].");
+				System.out.println("You are Player [X] now.");
 				return 'X';
 			}
 			else if (Character.compare(playerChar, 'o') == 0 || Character.compare(playerChar, 'O') == 0) {
-				System.out.println("Player selected character [O].");
+				System.out.println("You are Player [O] now");
 				return 'O';
 			}
 			else {System.out.println("Enter only enter the alphabets X or O.");}
@@ -69,9 +84,9 @@ public class newTicTacToe {
 	
 	
 	//UC4
-	public static void makeMove(char[] board2, Scanner Input, char playerChar) {
+	public static void playerMove(char[] board2, Scanner Input, char playerChar) {
 		
-		
+		System.out.printf("Player [%s] please make your move.",playerChar);
 		int slotStatus = isIndexEmpty(board2, Input);
 		
 		if(slotStatus != 0) {
@@ -79,9 +94,9 @@ public class newTicTacToe {
 			showBoard(board2);
 		}
 		else {
-			System.out.printf("\n\n !!! The position you selected is already filled !!! \n"
+			System.out.println("\n\n !!! The position you selected is already filled !!! \n"
 					          + "!!! Please select empty position !!!\n\n");
-			makeMove(board2, Input, playerChar);
+			playerMove(board2, Input, playerChar);
 		}
 	}
 	
@@ -115,7 +130,9 @@ public class newTicTacToe {
 		if (playerTossCall != 'H' && playerTossCall != 'T') 
 			toss(sc);
 		else
+		{
 			System.out.println("A coin was tossed");
+		}
 		
 		boolean playerWonOrNot = ( (int) (Math.random()*10) % 2 == 0) ? true : false;
 		if (playerWonOrNot)
@@ -125,6 +142,29 @@ public class newTicTacToe {
 							   (playerTossCall == 'H') ? 'T' : 'H' );
 		
 		return  playerWonOrNot;
+	}
+	
+	//UC7
+	public static void opponentPlays(char[] board) {
+		
+		System.out.println("No opponent move right now.");
+		showBoard(board);
+		
+	}
+	
+	//UC7
+	public static boolean winOrNot(char[] board , boolean isPlayerTurnNow, char lastPlayedSymbol) {
+		
+		if(board[0] == board[1] && board[1] == board[2] && board[2] == lastPlayedSymbol ||
+		   board[3] == board[4] && board[4] == board[5] && board[5] == lastPlayedSymbol ||
+		   board[6] == board[7] && board[7] == board[8] && board[8] == lastPlayedSymbol ||
+		   board[0] == board[4] && board[4] == board[8] && board[8] == lastPlayedSymbol ||
+		   board[2] == board[4] && board[4] == board[6] && board[6] == lastPlayedSymbol) 
+		{
+			return true;
+		}
+		
+		return false;
 	}
 	
 	
