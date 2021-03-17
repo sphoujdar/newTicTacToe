@@ -92,7 +92,7 @@ public class newTicTacToe {
 	}
 	
 	
-	//UC4
+	//UC4 and UC5
 	public static int isIndexEmpty(char[] board1, Scanner input) {
 		
 			int index = 0;
