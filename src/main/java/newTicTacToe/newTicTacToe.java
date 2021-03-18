@@ -261,32 +261,30 @@ public class newTicTacToe {
 		if(compTurnIndex > 0 && compTurnIndex <10)
 			return compTurnIndex;
 
-		//If no win or block move then conquer an open corner. This is the logic for UC10.
-		compTurnIndex = findEmptyCorner(board);
+		//If no win or block move then conquer an open corner, then center, then sides.
+		compTurnIndex = findEmptyCornerCenterSides(board);
 		if(compTurnIndex > 0 && compTurnIndex <10)
 			return compTurnIndex;
-
-		//If no move found above then play at first open spot.
-		for (int i = 1; i < 10; i++) {
-			if(board[i] == emptyCharacter){
-				return i;
-			}
-
-		}
 		return 11;
 	}
 
-	//UC10
-	public static int findEmptyCorner(char[] board){
 
-		if (board[1] == emptyCharacter )
-			return 1;
-		if (board[3] == emptyCharacter )
-			return 3;
-		if (board[7] == emptyCharacter )
-			return 7;
-		if (board[9] == emptyCharacter )
-			return 9;
+	//UC10 , UC11
+	public static int findEmptyCornerCenterSides(char[] board){
+
+		byte [] cornerIndex = {1, 3, 7, 9};
+		byte [] sideIndex = {2, 4, 6, 8};
+
+		for(byte i = 0; i<cornerIndex.length; i++)
+			if (board[cornerIndex[i]] == emptyCharacter )
+				return cornerIndex[i];
+
+		if (board[5] == emptyCharacter )
+			return 5;
+
+		for(byte i = 0; i<cornerIndex.length; i++)
+			if (board[sideIndex[i]] == emptyCharacter )
+				return sideIndex[i];
 
 		return 11;
 	}
