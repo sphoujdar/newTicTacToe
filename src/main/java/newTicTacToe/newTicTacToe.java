@@ -8,14 +8,12 @@ public class newTicTacToe {
 
 	public static void main(String[] args) {
 
-
 		//Various Variables used in main()
 		Scanner input = new Scanner(System.in);
 		char[] board = createBoard();
 		char playerSymbol = playerChooseSymbol(input), opponentSymbol = (playerSymbol == 'X') ? 'O' : 'X';
 		int gameTypeChoice = getGameTypeChoice(input);
 		char isPlayerTurnNow = toss(input);
-
 
 		do {
 			if (isPlayerTurnNow == 'P') {
@@ -54,14 +52,12 @@ public class newTicTacToe {
 
 	}
 
-
 	//UC1
 	private static char[] createBoard() {
 		char[] board = new char[10];
 		Arrays.fill(board,emptyCharacter);
 		return board;
 	}
-
 
 	//UC2
 	public static char playerChooseSymbol(Scanner sc) {
@@ -97,7 +93,6 @@ public class newTicTacToe {
 		System.out.println("-------");
 	}
 
-
 	//UC4
 	public static void playerMove(char[] board2, Scanner Input, char playerChar) {
 
@@ -112,7 +107,6 @@ public class newTicTacToe {
 			playerMove(board2, Input, playerChar);
 		}
 	}
-
 
 	//UC4 and UC5
 	public static int isIndexEmpty(char[] board1, Scanner input) {
@@ -130,7 +124,6 @@ public class newTicTacToe {
 		}
 		return index;
 	}
-
 
 	//UC6
 	public static char toss(Scanner sc) {
@@ -156,10 +149,8 @@ public class newTicTacToe {
 		return playerWonOrNot;
 	}
 
-
 	//UC7
 	public static char whoWon(char[] board) {
-
 
 		for (int caseNum = 0; caseNum < 8; caseNum++) {
 			switch (caseNum) {
@@ -211,7 +202,6 @@ public class newTicTacToe {
 		if (doesBoardHaveEmptySpace.contains("-")){
 			return 'E';
 		}
-
 		return 'T';
 	}
 
@@ -224,17 +214,13 @@ public class newTicTacToe {
 	public  static int getGameTypeChoice(Scanner sc){
 
 		int gameTypeChoiceInput;
-
 		do{
 			System.out.println("Please input choice\n" +
 					"[1] Play against Computer\n" +
 					"[2] 2 Player game\n");
 			gameTypeChoiceInput = sc.nextInt();
 		} while(gameTypeChoiceInput != 1 && gameTypeChoiceInput != 2);
-
-
 		return gameTypeChoiceInput;
-
 	}
 
 	//UC8
@@ -244,7 +230,6 @@ public class newTicTacToe {
 		board[indexChosen] = computerCharacter;
 		System.out.printf("Computer Played at position [%d]\n",indexChosen);
 	}
-
 
 	//UC8
 	public static int computerChoosesIndex(char[] board , char computerCharacter, char playerCharacter){
@@ -268,26 +253,26 @@ public class newTicTacToe {
 		return 11;
 	}
 
-
 	//UC10 , UC11
 	public static int findEmptyCornerCenterSides(char[] board){
 
 		byte [] cornerIndex = {1, 3, 7, 9};
 		byte [] sideIndex = {2, 4, 6, 8};
 
-		for(byte i = 0; i<cornerIndex.length; i++)
-			if (board[cornerIndex[i]] == emptyCharacter )
-				return cornerIndex[i];
+		for (byte item : cornerIndex)
+			if (board[item] == emptyCharacter)
+				return item;
 
 		if (board[5] == emptyCharacter )
 			return 5;
 
-		for(byte i = 0; i<cornerIndex.length; i++)
-			if (board[sideIndex[i]] == emptyCharacter )
-				return sideIndex[i];
+		for (byte item : sideIndex)
+			if (board[item] == emptyCharacter)
+				return item;
 
 		return 11;
 	}
+
 	public static int findWinPosition (char[] board, char comparisonCharacter){
 		for (int caseNum = 1; caseNum < 10; caseNum++) {
 			switch (caseNum) {
@@ -371,10 +356,7 @@ public class newTicTacToe {
 					break;
 			}
 		}
-
 		return 11;
 	}
-
-
 }
 
