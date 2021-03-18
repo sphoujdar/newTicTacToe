@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 public class newTicTacToe {
 
+	public static final char emptyCharacter = '-';
+
 	public static void main(String[] args) {
 
 
@@ -56,7 +58,7 @@ public class newTicTacToe {
 	//UC1
 	private static char[] createBoard() {
 		char[] board = new char[10];
-		Arrays.fill(board,'-');
+		Arrays.fill(board,emptyCharacter);
 		return board;
 	}
 
@@ -247,83 +249,108 @@ public class newTicTacToe {
 	//UC8
 	public static int computerChoosesIndex(char[] board , char computerCharacter, char playerCharacter){
 
-		//playToWin Logic
+		int compTurnIndex;
+
+		//Computer plays to win
+		compTurnIndex = findWinPosition(board,computerCharacter);
+		if(compTurnIndex > 0 && compTurnIndex <10)
+			return compTurnIndex;
+
+		//Computer plays to block opponent's win
+		compTurnIndex = findWinPosition(board,playerCharacter);
+		if(compTurnIndex > 0 && compTurnIndex <10)
+			return compTurnIndex;
+
+		/*
+		If no win or block move then play at first open spot.
+		This is the logic for UC9
+		 */
+		for (int i = 1; i < 10; i++) {
+			if(board[i] == '-'){
+				return i;
+			}
+
+		}
+		return 11;
+	}
+
+	public static int findWinPosition (char[] board, char comparisonCharacter){
 		for (int caseNum = 1; caseNum < 10; caseNum++) {
 			switch (caseNum) {
 				case 9:
-					if (board[9] != playerCharacter && (
-						threeCharCompare(board[3] , board[6] ,computerCharacter) ||
-						threeCharCompare(board[7] , board[8] ,computerCharacter) ||
-						threeCharCompare(board[1] , board[5] ,computerCharacter)))
+					if (board[9] == emptyCharacter && (
+							threeCharCompare(board[3] , board[6] ,comparisonCharacter) ||
+									threeCharCompare(board[7] , board[8] ,comparisonCharacter) ||
+									threeCharCompare(board[1] , board[5] ,comparisonCharacter)))
 					{
 						return 9;
 					}
 					break;
 				case 8:
-					if (board[8] != playerCharacter && (
-						threeCharCompare(board[7] , board[9] ,computerCharacter) ||
-						threeCharCompare(board[2] , board[5] ,computerCharacter)))
+					if (board[8] == emptyCharacter && (
+							threeCharCompare(board[7] , board[9] ,comparisonCharacter) ||
+									threeCharCompare(board[2] , board[5] ,comparisonCharacter)))
 					{
 						return 8;
 					}
 					break;
 				case 7:
-					if (board[7] != playerCharacter && (
-						threeCharCompare(board[1] , board[4] ,computerCharacter) ||
-						threeCharCompare(board[9] , board[8] ,computerCharacter) ||
-						threeCharCompare(board[3] , board[5] ,computerCharacter)))
+					if (board[7] == emptyCharacter && (
+							threeCharCompare(board[1] , board[4] ,comparisonCharacter) ||
+									threeCharCompare(board[9] , board[8] ,comparisonCharacter) ||
+									threeCharCompare(board[3] , board[5] ,comparisonCharacter)))
 					{
 						return 7;
 					}
 					break;
 				case 6:
-					if (board[6] != playerCharacter && (
-						threeCharCompare(board[3] , board[9] ,computerCharacter) ||
-						threeCharCompare(board[4] , board[5] ,computerCharacter)))
+					if (board[6] == emptyCharacter && (
+							threeCharCompare(board[3] , board[9] ,comparisonCharacter) ||
+									threeCharCompare(board[4] , board[5] ,comparisonCharacter)))
 					{
 						return 6;
 					}
 					break;
 				case 5:
-					if (board[5] != playerCharacter && (
-						threeCharCompare(board[2] , board[8] ,computerCharacter) ||
-						threeCharCompare(board[4] , board[6] ,computerCharacter) ||
-						threeCharCompare(board[1] , board[9] ,computerCharacter) ||
-						threeCharCompare(board[3] , board[7] ,computerCharacter)))
+					if (board[5] == emptyCharacter && (
+							threeCharCompare(board[2] , board[8] ,comparisonCharacter) ||
+									threeCharCompare(board[4] , board[6] ,comparisonCharacter) ||
+									threeCharCompare(board[1] , board[9] ,comparisonCharacter) ||
+									threeCharCompare(board[3] , board[7] ,comparisonCharacter)))
 					{
 						return 5;
 					}
 					break;
 				case 4:
-					if (board[4] != playerCharacter && (
-						threeCharCompare(board[5] , board[6] ,computerCharacter) ||
-						threeCharCompare(board[1] , board[7] ,computerCharacter)))
+					if (board[4] == emptyCharacter && (
+							threeCharCompare(board[5] , board[6] ,comparisonCharacter) ||
+									threeCharCompare(board[1] , board[7] ,comparisonCharacter)))
 					{
 						return 4;
 					}
 					break;
 				case 3:
-					if (board[3] != playerCharacter && (
-						threeCharCompare(board[9] , board[6] ,computerCharacter) ||
-						threeCharCompare(board[7] , board[5] ,computerCharacter) ||
-						threeCharCompare(board[1] , board[2] ,computerCharacter)))
+					if (board[3] == emptyCharacter && (
+							threeCharCompare(board[9] , board[6] ,comparisonCharacter) ||
+									threeCharCompare(board[7] , board[5] ,comparisonCharacter) ||
+									threeCharCompare(board[1] , board[2] ,comparisonCharacter)))
 					{
 						return 3;
 					}
 					break;
 				case 2:
-					if (board[2] != playerCharacter && (
-						threeCharCompare(board[5] , board[8] ,computerCharacter) ||
-						threeCharCompare(board[1] , board[3] ,computerCharacter)))
+					if (board[2] == emptyCharacter && (
+							threeCharCompare(board[5] , board[8] ,comparisonCharacter) ||
+									threeCharCompare(board[1] , board[3] ,comparisonCharacter)))
 					{
 						return 2;
 					}
 					break;
 				case 1:
-					if (board[1] != playerCharacter && (
-						threeCharCompare(board[3] , board[2] ,computerCharacter) ||
-						threeCharCompare(board[7] , board[4] ,computerCharacter) ||
-						threeCharCompare(board[9] , board[5] ,computerCharacter)))
+					if (board[1] == emptyCharacter && (
+							threeCharCompare(board[3] , board[2] ,comparisonCharacter) ||
+									threeCharCompare(board[7] , board[4] ,comparisonCharacter) ||
+									threeCharCompare(board[9] , board[5] ,comparisonCharacter)))
 					{
 						return 1;
 					}
@@ -331,17 +358,6 @@ public class newTicTacToe {
 			}
 		}
 
-		/* Above code says play to win.
-		* Below code says if no win move,
-		* then play at first open spot.
-		* This is the logic for UC8.*/
-
-		for (int i = 1; i < 10; i++) {
-			if(board[i] == '-'){
-				return i;
-			}
-
-		}
 		return 11;
 	}
 
