@@ -290,7 +290,6 @@ public class newTicTacToe {
 
 		return 11;
 	}
-	//UC9
 	public static int findWinPosition (char[] board, char comparisonCharacter){
 		for (int caseNum = 1; caseNum < 10; caseNum++) {
 			switch (caseNum) {
