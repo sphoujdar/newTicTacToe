@@ -4,52 +4,53 @@ import java.util.Scanner;
 
 public class newTicTacToe {
 
-	public static final char emptyCharacter = '-';
+	public static final char emptyCharacter = '_';
+	static boolean playAgain = true;
+
+	//Variables to reset for every new game
+	static char[] board;
+	static int gameTypeChoice;
+	static char isPlayerTurnNow;
+	static char playerSymbol , opponentSymbol;
 
 	public static void main(String[] args) {
 
 		//Various Variables used in main()
 		Scanner input = new Scanner(System.in);
-		char[] board = createBoard();
-		char playerSymbol = playerChooseSymbol(input), opponentSymbol = (playerSymbol == 'X') ? 'O' : 'X';
-		int gameTypeChoice = getGameTypeChoice(input);
-		char isPlayerTurnNow = toss(input);
+		prepareNewGame(input);
 
-		do {
-			if (isPlayerTurnNow == 'P') {
-				playerMove(board, input, playerSymbol);
-				isPlayerTurnNow = 'O';
-			}
-			else if (isPlayerTurnNow == 'O') {
-				if (gameTypeChoice == 2) {
-					playerMove(board, input, opponentSymbol);
-					isPlayerTurnNow = 'P';
+			do {
+				if (isPlayerTurnNow == 'P') {
+					playerMove(board, input, playerSymbol);
+					isPlayerTurnNow = 'O';
+				} else if (isPlayerTurnNow == 'O') {
+					if (gameTypeChoice == 2) {
+						playerMove(board, input, opponentSymbol);
+						isPlayerTurnNow = 'P';
+					} else if (gameTypeChoice == 1) {
+						computerPlays(board, opponentSymbol, playerSymbol);
+						isPlayerTurnNow = 'P';
+					}
+				} else {
+					isPlayerTurnNow = toss(input);
 				}
-				else if (gameTypeChoice == 1) {
-					computerPlays(board, opponentSymbol,playerSymbol);
-					isPlayerTurnNow = 'P';
+
+				switch (whoWon(board)) {
+					case 'T':
+						System.out.println("Board has no empty spaces , Game ended in a tie.");
+						showBoard(board);
+						break;
+					case 'X':
+						showBoard(board);
+						System.out.println("Player [X] won the game.");
+						break;
+					case 'O':
+						showBoard(board);
+						System.out.println("Player [O] won the game.");
+						break;
 				}
-			}
-			else {
-				isPlayerTurnNow = toss(input);
-			}
 
-			switch (whoWon(board)){
-				case 'T' :
-					System.out.println("Board has no empty spaces , Game ended in a tie.");
-					break;
-				case 'X' :
-					showBoard(board);
-					System.out.println("Player [X] won the game.");
-					break;
-				case 'O' :
-					showBoard(board);
-					System.out.println("Player [O] won the game.");
-					break;
-			}
-
-		} while (whoWon(board) == 'E');
-
+			} while (whoWon(board) == 'E' && playAgain);
 	}
 
 	//UC1
@@ -199,7 +200,7 @@ public class newTicTacToe {
 
 		String doesBoardHaveEmptySpace = "" +  board[1] + board[2] + board[3] + board[4]
 							  + board[5] + board[6] + board[7] + board[8] + board[9];
-		if (doesBoardHaveEmptySpace.contains("-")){
+		if (doesBoardHaveEmptySpace.contains(""+emptyCharacter)){
 			return 'E';
 		}
 		return 'T';
@@ -358,5 +359,23 @@ public class newTicTacToe {
 		}
 		return 11;
 	}
-}
 
+	public static void prepareNewGame(Scanner sc){
+		int choiceInput;
+		do{
+			System.out.println("Please input choice\n" +
+					"[1] New Game\n" +
+					"[2] Exit\n");
+			choiceInput = sc.nextInt();
+		} while(choiceInput != 1 && choiceInput != 2);
+		if(choiceInput == 2)
+			playAgain = false;
+		else{
+			board = createBoard();
+			gameTypeChoice = getGameTypeChoice(sc);
+			isPlayerTurnNow = toss(sc);
+			playerSymbol = playerChooseSymbol(sc);
+			opponentSymbol = (playerSymbol == 'X') ? 'O' : 'X';
+		}
+	}
+}
