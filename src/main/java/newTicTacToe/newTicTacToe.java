@@ -164,42 +164,42 @@ public class newTicTacToe {
 		for (int caseNum = 0; caseNum < 8; caseNum++) {
 			switch (caseNum) {
 				case 0:
-					if (board[1] == board[2] && board[2] == board[3] && board[1] != '-'){
+					if (board[1] == board[2] && board[2] == board[3] && board[1] != emptyCharacter){
 						return board[1];
 					}
 					break;
 				case 1:
-					if (board[4] == board[5] && board[5] == board[6] && board[4] != '-'){
+					if (board[4] == board[5] && board[5] == board[6] && board[4] != emptyCharacter){
 						return board[4];
 					}
 						break;
 				case 2:
-					if (board[7] == board[8] && board[8] == board[9] && board[7] != '-'){
+					if (board[7] == board[8] && board[8] == board[9] && board[7] != emptyCharacter){
 						return board[7];
 					}
 					break;
 				case 3:
-					if (board[1] == board[4] && board[4] == board[7] && board[1] != '-'){
+					if (board[1] == board[4] && board[4] == board[7] && board[1] != emptyCharacter){
 						return board[1];
 					}
 					break;
 				case 4:
-					if (board[2] == board[5] && board[5] == board[8] && board[2] != '-'){
+					if (board[2] == board[5] && board[5] == board[8] && board[2] != emptyCharacter){
 						return board[2];
 					}
 					break;
 				case 5:
-					if (board[3] == board[6] && board[6] == board[9] && board[3] != '-'){
+					if (board[3] == board[6] && board[6] == board[9] && board[3] != emptyCharacter){
 						return board[3];
 					}
 					break;
 				case 6:
-					if (board[1] == board[5] && board[5] == board[9] && board[1] != '-'){
+					if (board[1] == board[5] && board[5] == board[9] && board[1] != emptyCharacter){
 						return board[1];
 					}
 					break;
 				case 7:
-					if (board[3] == board[5] && board[5] == board[7] && board[3] != '-'){
+					if (board[3] == board[5] && board[5] == board[7] && board[3] != emptyCharacter){
 						return board[3];
 					}
 					break;
@@ -261,12 +261,14 @@ public class newTicTacToe {
 		if(compTurnIndex > 0 && compTurnIndex <10)
 			return compTurnIndex;
 
-		/*
-		If no win or block move then play at first open spot.
-		This is the logic for UC9
-		 */
+		//If no win or block move then conquer an open corner. This is the logic for UC10.
+		compTurnIndex = findEmptyCorner(board);
+		if(compTurnIndex > 0 && compTurnIndex <10)
+			return compTurnIndex;
+
+		//If no move found above then play at first open spot.
 		for (int i = 1; i < 10; i++) {
-			if(board[i] == '-'){
+			if(board[i] == emptyCharacter){
 				return i;
 			}
 
@@ -274,14 +276,29 @@ public class newTicTacToe {
 		return 11;
 	}
 
+	//UC10
+	public static int findEmptyCorner(char[] board){
+
+		if (board[1] == emptyCharacter )
+			return 1;
+		if (board[3] == emptyCharacter )
+			return 3;
+		if (board[7] == emptyCharacter )
+			return 7;
+		if (board[9] == emptyCharacter )
+			return 9;
+
+		return 11;
+	}
+	//UC9
 	public static int findWinPosition (char[] board, char comparisonCharacter){
 		for (int caseNum = 1; caseNum < 10; caseNum++) {
 			switch (caseNum) {
 				case 9:
 					if (board[9] == emptyCharacter && (
 							threeCharCompare(board[3] , board[6] ,comparisonCharacter) ||
-									threeCharCompare(board[7] , board[8] ,comparisonCharacter) ||
-									threeCharCompare(board[1] , board[5] ,comparisonCharacter)))
+							threeCharCompare(board[7] , board[8] ,comparisonCharacter) ||
+							threeCharCompare(board[1] , board[5] ,comparisonCharacter)))
 					{
 						return 9;
 					}
@@ -289,7 +306,7 @@ public class newTicTacToe {
 				case 8:
 					if (board[8] == emptyCharacter && (
 							threeCharCompare(board[7] , board[9] ,comparisonCharacter) ||
-									threeCharCompare(board[2] , board[5] ,comparisonCharacter)))
+							threeCharCompare(board[2] , board[5] ,comparisonCharacter)))
 					{
 						return 8;
 					}
@@ -297,8 +314,8 @@ public class newTicTacToe {
 				case 7:
 					if (board[7] == emptyCharacter && (
 							threeCharCompare(board[1] , board[4] ,comparisonCharacter) ||
-									threeCharCompare(board[9] , board[8] ,comparisonCharacter) ||
-									threeCharCompare(board[3] , board[5] ,comparisonCharacter)))
+							threeCharCompare(board[9] , board[8] ,comparisonCharacter) ||
+							threeCharCompare(board[3] , board[5] ,comparisonCharacter)))
 					{
 						return 7;
 					}
@@ -306,7 +323,7 @@ public class newTicTacToe {
 				case 6:
 					if (board[6] == emptyCharacter && (
 							threeCharCompare(board[3] , board[9] ,comparisonCharacter) ||
-									threeCharCompare(board[4] , board[5] ,comparisonCharacter)))
+							threeCharCompare(board[4] , board[5] ,comparisonCharacter)))
 					{
 						return 6;
 					}
@@ -314,9 +331,9 @@ public class newTicTacToe {
 				case 5:
 					if (board[5] == emptyCharacter && (
 							threeCharCompare(board[2] , board[8] ,comparisonCharacter) ||
-									threeCharCompare(board[4] , board[6] ,comparisonCharacter) ||
-									threeCharCompare(board[1] , board[9] ,comparisonCharacter) ||
-									threeCharCompare(board[3] , board[7] ,comparisonCharacter)))
+							threeCharCompare(board[4] , board[6] ,comparisonCharacter) ||
+							threeCharCompare(board[1] , board[9] ,comparisonCharacter) ||
+							threeCharCompare(board[3] , board[7] ,comparisonCharacter)))
 					{
 						return 5;
 					}
@@ -324,7 +341,7 @@ public class newTicTacToe {
 				case 4:
 					if (board[4] == emptyCharacter && (
 							threeCharCompare(board[5] , board[6] ,comparisonCharacter) ||
-									threeCharCompare(board[1] , board[7] ,comparisonCharacter)))
+							threeCharCompare(board[1] , board[7] ,comparisonCharacter)))
 					{
 						return 4;
 					}
@@ -332,8 +349,8 @@ public class newTicTacToe {
 				case 3:
 					if (board[3] == emptyCharacter && (
 							threeCharCompare(board[9] , board[6] ,comparisonCharacter) ||
-									threeCharCompare(board[7] , board[5] ,comparisonCharacter) ||
-									threeCharCompare(board[1] , board[2] ,comparisonCharacter)))
+							threeCharCompare(board[7] , board[5] ,comparisonCharacter) ||
+							threeCharCompare(board[1] , board[2] ,comparisonCharacter)))
 					{
 						return 3;
 					}
@@ -341,7 +358,7 @@ public class newTicTacToe {
 				case 2:
 					if (board[2] == emptyCharacter && (
 							threeCharCompare(board[5] , board[8] ,comparisonCharacter) ||
-									threeCharCompare(board[1] , board[3] ,comparisonCharacter)))
+							threeCharCompare(board[1] , board[3] ,comparisonCharacter)))
 					{
 						return 2;
 					}
@@ -349,8 +366,8 @@ public class newTicTacToe {
 				case 1:
 					if (board[1] == emptyCharacter && (
 							threeCharCompare(board[3] , board[2] ,comparisonCharacter) ||
-									threeCharCompare(board[7] , board[4] ,comparisonCharacter) ||
-									threeCharCompare(board[9] , board[5] ,comparisonCharacter)))
+							threeCharCompare(board[7] , board[4] ,comparisonCharacter) ||
+							threeCharCompare(board[9] , board[5] ,comparisonCharacter)))
 					{
 						return 1;
 					}
